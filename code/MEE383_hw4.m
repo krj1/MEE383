@@ -7,7 +7,8 @@ D = zID(5)
 E = zID(6)
 F = zID(7)
 
-xInc = 0:.05:100
+xInc = 0:.05:100 %I know that this is too many steps through the 
+% derivative approximation gets really bad for large step sizes
 
 Gt = -F*exp(-abs((xInc/E)-C)).*cos(((2*pi)/E)*(xInc-(B/10)))-A
 GtPrime = diff(Gt)
@@ -23,9 +24,9 @@ i = i+1
         yMax = Gt(i)
     end
 end
-iAmTooLazy = yMax * 0.44
+iAmTooLazy = yMax * 0.44 - A
 
-I = find(GtPrime2 >= 0 ) 
+I = find(GtPrime2 >= 0 & Gt(1:end-2) > iAmTooLazy) 
 
 plot(xInc,Gt,'b')
 hold on
