@@ -26,7 +26,7 @@ i = i+1
 end
 iAmTooLazy = yMax * 0.44 - A
 
-I = find(GtPrime2 >= 0 & Gt(1:end-2) > iAmTooLazy) 
+I = find(GtPrime2 >= 0 ) 
 
 plot(xInc,Gt,'b')
 hold on
