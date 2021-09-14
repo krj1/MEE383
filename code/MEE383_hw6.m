@@ -15,7 +15,7 @@ arrWit = length(NP)
 
 i = 0
 
-rows = 4s
+rows = 4
 
 
 while i < rows
