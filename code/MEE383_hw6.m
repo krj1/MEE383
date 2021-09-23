@@ -8,10 +8,10 @@ E = zID(6)
 F = zID(7)
 
  rng(A + B + C + D + 0 + F)
- NP = round((C+0.8)*randn(7,7))
+ KJ = round((C+0.8)*randn(7,7))
  
-arrHit = width(NP)
-arrWit = length(NP)
+arrHit = width(KJ)
+arrWit = length(KJ)
 
 i = 0
 
@@ -20,11 +20,11 @@ rows = 4
 
 while i < rows
     i = i + 1
-    NP(i,1:end) = NP(i,1:end) / NP(i,i)
+    KJ(i,1:end) = KJ(i,1:end) / KJ(i,i)
     j = i
     while j < 7
         j = j + 1
-        NP(j,1:end) = NP(j,1:end) - (NP(i,1:end) * NP(j,i))
+        KJ(j,1:end) = KJ(j,1:end) - (KJ(i,1:end) * KJ(j,i))
     end
 end
 
@@ -35,11 +35,11 @@ while i > 1
     j = i
     while j > 1
         j = j - 1
-        NP(j,1:end) = NP(j,1:end) - (NP(i,1:end) * NP(j,i))
+        KJ(j,1:end) = KJ(j,1:end) - (KJ(i,1:end) * KJ(j,i))
     end
 end
     
-NP
+KJ
 
 
 
