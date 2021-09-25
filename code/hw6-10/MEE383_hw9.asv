@@ -21,7 +21,8 @@ for k = 1:52
     hourHand(E+(k*(6+F)/60),0.583*r,x,y)
     minuteHand(B+C+D+(k*(6+F)),0.833*r,x,y)
     circle(x,y,r)
-    
+    hours(r*1.2,x,y)
+ 
     hold off
 end
 
@@ -56,19 +57,34 @@ function hour = hourHand(hour,hyp,x,y)
 
 end
 
-function Hours = hours(hours,hyp,x,y)
+function hour = hourNoch(hour,hyp,x,y)
     axis equal
-    xloc1 = x;
-    yloc1 = y;
-    deg = (hour * 30) - 90;
-    
-    xloc2 = cosd(-deg) * hyp + x;
-    yloc2 = sind(-deg) * hyp + y;
-    xloc = [xloc1,xloc2];
-    yloc = [yloc1,yloc2];
-    hour = plot(xloc,yloc,'LineWidth',3.5,'Color',[ 165/255, 167/255, 168/255]);
+    for i = 1:12
+        xloc1 = cosd(-deg) * hyp*. + x;
+        yloc1 = sind(-deg) * hyp + y;
+        deg = (hour * 30) - 90;
+        xloc2 = cosd(-deg) * hyp + x;
+        yloc2 = sind(-deg) * hyp + y;
+        xloc = [xloc1,xloc2];
+        yloc = [yloc1,yloc2];
+        hour = plot(xloc,yloc,'LineWidth',3.5,'Color',[ 165/255, 167/255, 168/255]);
+    end
 
 end
+
+
+function Hours = hours(hyp,x,y)
+    axis equal
+    for i = 1:12
+        deg = (i * 30) - 90;
+        xloc = cosd(-deg) * hyp + x - .2;
+        yloc = sind(-deg) * hyp + y;
+        str = string(i)
+        Hours = text(xloc,yloc,str,'FontSize',16);
+    end
+end
+
+
 
 function temp = circle(x,y,r)
 axis equal
