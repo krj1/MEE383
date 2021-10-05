@@ -48,14 +48,17 @@ end
 function min = minuteNotch(hyp,x,y)
     axis equal
     for i = 1:60
-        deg = (i * 6) - 90;
-        xloc1 = cosd(-deg) * hyp*.95 + x;
-        yloc1 = sind(-deg) * hyp*.95 + y;
-        xloc2 = cosd(-deg) * hyp + x;
-        yloc2 = sind(-deg) * hyp + y;
-        xloc = [xloc1,xloc2];
-        yloc = [yloc1,yloc2];
-        min = plot(xloc,yloc,'LineWidth',2,'Color',[0,0,0]);
+        if mod(i,5) == 0 
+        else    
+            deg = (i * 6) - 90;
+            xloc1 = cosd(-deg) * hyp*.95 + x;
+            yloc1 = sind(-deg) * hyp*.95 + y;
+            xloc2 = cosd(-deg) * hyp + x;
+            yloc2 = sind(-deg) * hyp + y;
+            xloc = [xloc1,xloc2];
+            yloc = [yloc1,yloc2];
+            min = plot(xloc,yloc,'LineWidth',2,'Color',[0,0,0]);
+        end
     end
 end
 
