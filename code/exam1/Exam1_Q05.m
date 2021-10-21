@@ -14,11 +14,12 @@ RU =  R/sqrt(R^2+U^2);
 UR =  U/sqrt(R^2+U^2);
 
 zArr = [];
-
+zArrC = [];
 
 
 for T = 1:1:10
     bVecPlot = [];
+    bVecPlotC = [];
     for V = 1:1:10
         
         TW =  T/sqrt(T^2+W^2);
@@ -55,16 +56,48 @@ for T = 1:1:10
             determinante = det(Amat); %det != 0 thus the system is linearly independent
 
             bVec = Amat\xVec;
-            del = max(bVec)-min(bVec);
+            [minvT, minvInd] = minVec(bVec);
+            del = max(bVec)-minvT;
             bVecPlot = [bVecPlot; del];
+            [minvC, minvInd] = minusminVec(bVec);
+            del = minvC-min(bVec);
+            bVecPlotC = [bVecPlotC; del];
 
     end
     zArr = [zArr, bVecPlot];
+    zArrC = [zArrC, bVecPlotC];
 end
         
 [j,minCol] = min(zArr);
-[k,min] = min(minCol);
-min
+j
+
+
+
+function [minv, minvInd] = minVec(vec)
+    minv = max(vec);
+    i = 1;
+    while i < height(vec)
+        if minv > vec(i,1) && vec(i,1) > 0
+            minv = vec(i,1);
+            minvInd = i;
+        end
+        i = i + 1;
+    end  
+end
+
+function [minv, minvInd] = minusminVec(vec)
+    minv = min(vec);
+    i = 1;
+    while i < height(vec)
+        if minv < vec(i,1) && vec(i,1) < 0
+            minv = vec(i,1);
+            minvInd = i;
+        end
+        i = i + 1;
+    end  
+end
+
+
 
 
 
