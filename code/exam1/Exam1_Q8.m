@@ -22,12 +22,16 @@ t = [];
 dt = [];
 
 for i = 1:1:width(min)
-    if abs(min(i) - hr(i)) >= 180 && abs(min(i-1) - hr(i-1)) <= 180;
-        t = [dt,i];
+    if abs(min(i) - hr(i)) >= 180 && abs(min(i-1) - hr(i-1)) < 180;
+        t = [t,i];
+        i
     end
     
 end
 
+for i = 1:1:width(t)-1
+    dt = [dt,t(1,i+1)-t(1,i)];
+end
 xinc = 1:1:width(dt);
 
-scatter(dt,xinc);
+scatter(xinc,dt);

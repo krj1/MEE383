@@ -53,7 +53,7 @@ for theta = 0:pi/100:pi/2
 end
 
 
-plot(xinc, bVecPlot)
+plot(xinc, bVecPlot(11,1:end))
 title('Plot of force Vs. \theta')
 xlabel('0 < \theta < \pi/2') 
 ylabel('Force in kN')
@@ -61,6 +61,8 @@ ylabel('Force in kN')
 
 i = 1;
 maxDel = 0;
+
+
 
 while i < height(bVecPlot)
     minVal = min(bVecPlot(i,1:end));
@@ -72,7 +74,7 @@ while i < height(bVecPlot)
     i = i + 1;
 end
 
-disp(['The maximum change in internal stress is: ' num2str(maxDel) ' kN']) ;
+disp(['The maximum change in internal stress is: ' num2str(maxDel) ' kN and it occurs in link CD']) ;
 
 
 

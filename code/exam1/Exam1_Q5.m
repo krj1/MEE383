@@ -7,20 +7,25 @@ U = zID(5);
 V = zID(6);
 W = zID(7);
 
-TW =  T/sqrt(T^2+W^2);
-WT =  W/sqrt(T^2+W^2);
-TV =  T/sqrt(T^2+V^2);
-VT =  V/sqrt(T^2+V^2);
-TU =  T/sqrt(T^2+U^2);
+
+
 SU =  S/sqrt(S^2+U^2);
 US =  U/sqrt(S^2+U^2);
-UT =  U/sqrt(T^2+U^2);
+
 RU =  R/sqrt(R^2+U^2);
 UR =  U/sqrt(R^2+U^2);
 
 
 for T = 1:1:10
     for V = 1:1:10
+        
+        TW =  T/sqrt(T^2+W^2);
+        WT =  W/sqrt(T^2+W^2);
+        TV =  T/sqrt(T^2+V^2);
+        VT =  V/sqrt(T^2+V^2);
+        TU =  T/sqrt(T^2+U^2);
+        UT =  U/sqrt(T^2+U^2);
+        
         % Order of unknowns x = [Ax,Ay,Fy,AB,AI,BI,CI,BC,HI,CH,CD,DH,DE,GH,EH,EG,EF,FG];
         augSys = [1,0,0,TW,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0; %Fx@a
         0,1,0,WT,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0; %Fy@a

@@ -35,3 +35,4 @@ end
 xinc = 1:1:width(dt);
 
 scatter(xinc,dt);
+ylim([60 64]);

@@ -43,42 +43,45 @@ xVec = augSys(1:end,end);
 Amat = augSys(1:end,1:end-1);
 
 determinante = det(Amat); %det != 0 thus the system is linearly independent
+
 disp(['The determinante of coefficients matrix is: ' num2str(determinante) '']) ;
 disp(['Thus the system is linearly independent']);
 disp([' '])
 
 bVec = Amat\xVec;
-maxT = max(bVec);
-minT = minVec(bVec);
-maxC = min(bVec);
-minC = minusminVec(bVec);
+[maxT,indexT] = max(bVec);
+[minT,minvIndT] = minVec(bVec);
+[maxC,minvIndC] = min(bVec);
+[minC, indexC] = minusminVec(bVec);
 
-disp(['The maximum tension experienced is: ' num2str(maxT) ' kN']) ;
-disp(['The minimum tension experienced is: ' num2str(minT) ' kN']) ;
+disp(['The maximum tension experienced is: ' num2str(maxT) ' kN in link CH']) ;
+disp(['The minimum tension experienced is: ' num2str(minT) ' kN in link HI']) ;
 disp([' '])
-disp(['The maximum compression experienced is: ' num2str(abs(maxC)) ' kN']) ;
-disp(['The minimum compression experienced is: ' num2str(abs(minC)) ' kN']) ;
+disp(['The maximum compression experienced is: ' num2str(abs(maxC)) ' kN in link CD']) ;
+disp(['The minimum compression experienced is: ' num2str(abs(minC)) ' kN in link EH']) ;
 
 
 
 
-function minv = minVec(vec)
+function [minv, minvInd] = minVec(vec)
     minv = max(vec);
     i = 1;
     while i < height(vec)
         if minv > vec(i,1) && vec(i,1) > 0
             minv = vec(i,1);
+            minvInd = i;
         end
         i = i + 1;
     end  
 end
 
-function minv = minusminVec(vec)
+function [minv, minvInd] = minusminVec(vec)
     minv = min(vec);
     i = 1;
     while i < height(vec)
         if minv < vec(i,1) && vec(i,1) < 0
             minv = vec(i,1);
+            minvInd = i;
         end
         i = i + 1;
     end  

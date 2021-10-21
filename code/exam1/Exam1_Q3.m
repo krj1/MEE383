@@ -52,11 +52,16 @@ for theta = -pi/2:pi/100:pi*3/4
     
 end
 
-plot(xinc, bVecPlot)
+plot(xinc, bVecPlot(10,1:end))
+hold on
+plot(xinc, bVecPlot(9,1:end))
+plot(xinc, bVecPlot(11,1:end))
+plot(xinc, bVecPlot(15,1:end))
+hold off
 title('Plot of 30kN force Vs. \theta')
 xlabel('-\pi/2 < \theta < 3\pi/4') 
 ylabel('Force in kN')
-
+legend("CH","HI","CD","EH");
 figure();
 
 xinc = -pi/4:pi/100:pi;
@@ -94,9 +99,15 @@ for theta = -pi/4:pi/100:pi
     
 end
 
-plot(xinc, bVecPlot)
+plot(xinc, bVecPlot(10,1:end))
+hold on
+plot(xinc, bVecPlot(9,1:end))
+plot(xinc, bVecPlot(11,1:end)*1.5)
+plot(xinc, bVecPlot(15,1:end))
+hold off
 title('Plot of 50kN force Vs. \theta')
 xlabel('-\pi/4 < \theta < \pi') 
-ylabel('Force in kN')
+ylabel('Force in kN');
+legend("CH","HI","CD","EH");
 
 
