@@ -55,16 +55,9 @@ for T = 1:1:10
             determinante = det(Amat); %det != 0 thus the system is linearly independent
 
             bVec = Amat\xVec;
-            del = max(bVec)-min(bVec);
-            bVecPlot = [bVecPlot; del];
+            bVecPlot = [bVecPlot; bVec(11,1)];
 
     end
     zArr = [zArr, bVecPlot];
 end
         
-[j,minCol] = min(zArr);
-[k,min] = min(minCol);
-min
-
-
-

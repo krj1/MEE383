@@ -17,13 +17,14 @@ US =  U/sqrt(S^2+U^2);
 UT =  U/sqrt(T^2+U^2);
 RU =  R/sqrt(R^2+U^2);
 UR =  U/sqrt(R^2+U^2);
-bVecPlot = [];
-xinc = [];
-yinc = [];
+zArr = [];
+xinc = -pi/2:pi/100:pi/2+1.3734
+yinc = -1.3734:pi/100:pi
 
 
-for theta1 = -pi/2:pi/100:pi*3/4
-    for theta2 = -pi/4:pi/100:pi
+for theta1 = -pi/2:pi/100:pi/2+1.3734
+    bVecPlot = [];
+    for theta2 = -1.3734:pi/100:pi
     % Order of unknowns x = [Ax,Ay,Fr,AB,AI,BI,CI,BC,HI,CH,CD,DH,DE,GH,EH,EG,EF,FG];
         augSys = [1,0,0,TW,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0; %Fx@a
             0,1,0,WT,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0; %Fy@a
@@ -51,15 +52,15 @@ for theta1 = -pi/2:pi/100:pi*3/4
             determinante = det(Amat); %det != 0 thus the system is linearly independent
 
             bVec = Amat\xVec;
-            bVecPlot = [bVecPlot, bVec(4:end,1)];
-            xinc = [xinc, theta2];
-            yinc = [yinc, theta1];
+            bVecPlot = [bVecPlot; bVec(11,1)];
+
     end
-    
+    zArr = [zArr, bVecPlot];
 end
 
-contour(xinc,yinc,bVecPlot(1,1:end))
+surf(xinc,yinc,zArr)
 
-title('Plot of 50kN force Vs. \theta')
-xlabel('-\pi/4 < \theta < \pi') 
-ylabel('Force in kN')
+title('Plot of 50kN and 30kN force Vs. \theta');
+ylabel('50kN force -1.3734 < \theta < \pi');
+zlabel('Force in kN');
+xlabel('30kN force -\pi/2 < \theta < \pi/2+1.3734');
