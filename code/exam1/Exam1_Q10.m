@@ -9,7 +9,7 @@ E = zID(6);
 F = zID(7);
 minT = [];
 minC = [];
-
+forces = [];
 
 for i = -0.8:.1:3.7
     Apos = [1,1.5,i]; % [x,y,z] position of joint A
@@ -27,6 +27,9 @@ for i = -0.8:.1:3.7
     FAy = +(E-C)*123;
     FAz = -(F-B)*123;
     load_vals = [];
+    
+
+
     % Order of unknowns x = [By;Bz;Cx;Cz;Dy;Dz;AB;AC;AD;BC;BD;CD];
     coeffs = [0,0,-1,0,0,0,zeros(1,6); % Frame equilibrium in x
             -1,0,0,0,-1,0,zeros(1,6); % Frame equilibrium in y
@@ -44,11 +47,52 @@ for i = -0.8:.1:3.7
     constants = [-FAx;-FAy;-FAz;-1.5*FAz+3*FAy;FAz-3*FAx;-FAy+1.5*FAx;... constants for external loading
         -FAx;-FAy;-FAz;0;0;0]; % Constants from the external forces
     det(coeffs) % confirming that independent set of equations exist
-    solution = coeffs\constants
-    minT = [minT, solution(3,1)]; %used min functions made in question 1
-    minC = [minC, solution(11,1)];
+    solution = coeffs\constants;
+
+    minT = [minT, solution(9,1)]; %used min functions made in question 1 code is [findMinT, findMinTIndex] = minVec(solution(7:end,1))
+    minC = [minC, solution(10,1)];
+    forces = [forces, solution(7:end,1)];
 end
 
-plot(1:1:width(minT),minT)%
+
+plot(-0.8:.1:3.7,minC);
+title('Plot of minimum tension Vs. A position')
+xlabel('A position(m)') 
+ylabel('minimum tension(kN)')
+figure();
+
+plot(-0.8:.1:3.7,minT);
+title('Plot of minimum compression Vs. A position')
+xlabel('A position(m)') 
+ylabel('minimum compression(kN)')
 figure()
-plot(1:1:width(minC),minC)
+plot(-0.8:.1:3.7,forces);
+title('Plot of internal forces Vs. A position')
+xlabel('A position(m)') 
+ylabel('force(kN)')
+
+
+
+function [minv, minvInd] = minVec(vec)
+    minv = max(vec);
+    i = 1;
+    while i < height(vec)
+        if minv > vec(i,1) && vec(i,1) > 0
+            minv = vec(i,1);
+            minvInd = i;
+        end
+        i = i + 1;
+    end  
+end
+
+function [minv, minvInd] = minusminVec(vec)
+    minv = min(vec);
+    i = 1;
+    while i < height(vec)
+        if minv < vec(i,1) && vec(i,1) < 0
+            minv = vec(i,1);
+            minvInd = i;
+        end
+        i = i + 1;
+    end  
+end

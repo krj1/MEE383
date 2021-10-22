@@ -29,7 +29,7 @@ end
 for i = 1:1:width(min)
     if abs(min(i) - hr(i)) >= 120 && abs(min(i-1) - hr(i-1)) < 120;
         if abs(min(i) - sec(i)) >= 120 && abs(min(i-1) - sec(i-1)) < 120;
-            disp(['the hands are 120 degrees apart at t = ' num2str(i) ' seconds']);
+            disp(['the hands are 120 degrees apart at t = ' numi 'seconds'])'
         end
     end
     

@@ -8,10 +8,10 @@ D = zID(5);
 E = zID(6);
 F = zID(7);
 Z = [];
-maxT = [];
-maxC = [];
+plotsol = [];
+detPlot = [];
 
-t=0;
+
 for t = 0:pi/20:2*pi
     x = 1.803*cos(t)+1;
     y = 1.803*sin(t)+1.5;
@@ -46,13 +46,32 @@ for t = 0:pi/20:2*pi
     %         0,0,0,0,0,0,0,-AtoC(3),0,-BtoC(3),0,-DtoC(3)]; % summation in z direction
     constants = [-FAx;-FAy;-FAz;-1.5*FAz+3*FAy;FAz-3*FAx;-FAy+1.5*FAx;... constants for external loading
         -FAx;-FAy;-FAz;0;0;0]; % Constants from the external forces
-     
+    detPlot = [detPlot, det(coeffs)];
     solution = coeffs\constants;
-    maxT = [maxT, solution(7,1)]; %used min functions made in question 1
-    maxC = [maxC, solution(6,1)];
+    plotsol = [plotsol, solution];
 
 end
+k = 0:pi/20:2*pi;
+plot(k,plotsol)%from the plot we can see that link AB and AD experience the largest change in force
+legend();
 
-plot(1:1:width(maxT),maxT)%
-figure()
-plot(1:1:width(maxC),maxC)
+
+figure();
+plot(k,plotsol(9,1:end))
+title('Plot of force in link AD compression Vs. \theta')
+xlabel('\theta') 
+ylabel('force in AD(kN)')
+
+figure();
+plot(k,plotsol(7,1:end))
+title('Plot of force in link AB compression Vs. \theta')
+xlabel('\theta') 
+ylabel('force in AB(kN)')
+figure();
+
+scatter(k,detPlot);
+title('Plot of the determinant of coeffs Vs. \theta')
+xlabel('\theta') 
+ylabel('the determinant of coeffs')
+
+

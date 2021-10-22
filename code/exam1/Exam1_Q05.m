@@ -2,26 +2,28 @@ zID = [1, 8, 7, 5, 1, 10, 1];
 
 R = zID(2);
 S = zID(3);
-T = zID(4);
-U = zID(5);
-V = zID(6);
-W = zID(7);
 
+U = zID(5);
+
+W = zID(7);
 
 SU =  S/sqrt(S^2+U^2);
 US =  U/sqrt(S^2+U^2);
 RU =  R/sqrt(R^2+U^2);
 UR =  U/sqrt(R^2+U^2);
 
-zArr = [];
+changeTC2 = [];
+zArrT = [];
 zArrC = [];
 
 
 for T = 1:1:10
-    bVecPlot = [];
+    bVecPlotT = [];
     bVecPlotC = [];
+    changeTC = [];
     for V = 1:1:10
         
+        % Getting the denominators through the hypotenuse calculations
         TW =  T/sqrt(T^2+W^2);
         WT =  W/sqrt(T^2+W^2);
         TV =  T/sqrt(T^2+V^2);
@@ -29,7 +31,8 @@ for T = 1:1:10
         TU =  T/sqrt(T^2+U^2);
         UT =  U/sqrt(T^2+U^2);
         
-        % Order of unknowns x = [Ax,Ay,Fy,AB,AI,BI,CI,BC,HI,CH,CD,DH,DE,GH,EH,EG,EF,FG];
+        % Unknown order: x =
+        %   [Ax;Ay;Fy; AB; AI; BC; BI; CD; CH; CI; DE; DH; EF; EG; EH; FG;GH;HI]
         augSys = [1,0,0,TW,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0; %Fx@a
         0,1,0,WT,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0; %Fy@a
         0,0,0,-TW,0,-1,0,0,0,0,0,0,0,0,0,0,0,0,40; %Fx@b
@@ -56,22 +59,39 @@ for T = 1:1:10
             determinante = det(Amat); %det != 0 thus the system is linearly independent
 
             bVec = Amat\xVec;
-            [minvT, minvInd] = minVec(bVec);
-            del = max(bVec)-minvT;
-            bVecPlot = [bVecPlot; del];
-            [minvC, minvInd] = minusminVec(bVec);
-            del = minvC-min(bVec);
-            bVecPlotC = [bVecPlotC; del];
-
+            
+            delT = max(bVec) - minVec(bVec);
+            bVecPlotT = [bVecPlotT; delT];
+            
+            delC = minusminVec(bVec) - min(bVec);
+            bVecPlotC = [bVecPlotC; delC];
+            changeTC = [changeTC,bVec(4:end,1)];
+            
     end
-    zArr = [zArr, bVecPlot];
+    changeTC2 = [changeTC2,changeTC];
+    zArrT = [zArrT, bVecPlotT];
     zArrC = [zArrC, bVecPlotC];
 end
         
-[j,minCol] = min(zArr);
-j
+x = 1:1:10;
+y = 1:1:10;
 
+zArrT
 
+surf(x,y,zArrT);
+figure();
+surf(x,y,zArrC);
+ylabel('V');
+zlabel('Force in kN');
+xlabel('T');
+
+for i = 1:1:15
+    minimum = min(changeTC2(i,1:end));
+    maximum = max(changeTC2(i,1:end));
+    if minimum < 0 && maximum > 0
+        i
+    end
+end
 
 function [minv, minvInd] = minVec(vec)
     minv = max(vec);

@@ -9,8 +9,11 @@ E = zID(6);
 F = zID(7);
 Z = [];
 nonZ = [];
+minT = [];
+minC = [];
+detPlot = [];
 
-x=2;
+
 for x = 0:.05:2
     y = -.4111*(x-2);
     Apos = [1,1.5,3]; % [x,y,z] position of joint A
@@ -44,12 +47,48 @@ for x = 0:.05:2
     %         0,0,0,0,0,0,0,-AtoC(3),0,-BtoC(3),0,-DtoC(3)]; % summation in z direction
     constants = [-FAx;-FAy;-FAz;-1.5*FAz+3*FAy;FAz-3*FAx;-FAy+1.5*FAx;... constants for external loading
         -FAx;-FAy;-FAz;0;0;0]; % Constants from the external forces
-     
-    solution = det(coeffs)
-    minT = [minT, solution(3,1)]; %used min functions made in question 1
-    minC = [minC, solution(11,1)];
+     detPlot = [detPlot, det(coeffs)];
+    solution = coeffs\constants;
+
+
+    minT = [minT, solution(3+6,1)]; %used min functions on first value, [findMinT, findMinTIndex] = minVec(solution(7:end,1))
+    minC = [minC, solution(4+6,1)]; %used minusMin functions on first value, [findMinC, findMinCIndex] = minusminVec(solution(7:end,1))
 end
 
-plot(1:1:width(minT),minT)%
+
+find(abs(minT -12800) < 1)
+scatter(detPlot,minT,'filled');
+title('Plot of minimum tension Vs. the determinant of coeffs')
+xlabel('the determinant of coeffs(unitless)') 
+ylabel('minimum tension(kN)')
 figure()
-plot(1:1:width(minC),minC)
+
+scatter(detPlot,minC,'filled');
+title('Plot of minimum compression Vs. the determinant of coeffs')
+xlabel('the determinant of coeffs(unitless)') 
+ylabel('minimum compression(kN)')
+
+
+function [minv, minvInd] = minVec(vec)
+    minv = max(vec);
+    i = 1;
+    while i < height(vec)
+        if minv > vec(i,1) && vec(i,1) > 0
+            minv = vec(i,1);
+            minvInd = i;
+        end
+        i = i + 1;
+    end  
+end
+
+function [minv, minvInd] = minusminVec(vec)
+    minv = min(vec);
+    i = 1;
+    while i < height(vec)
+        if minv < vec(i,1) && vec(i,1) < 0
+            minv = vec(i,1);
+            minvInd = i;
+        end
+        i = i + 1;
+    end  
+end
