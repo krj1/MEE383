@@ -15,7 +15,7 @@ arrWit = length(KJ)
 
 i = 0
 
-rows = 4
+rows = 6
 
 
 while i < rows
@@ -28,16 +28,7 @@ while i < rows
     end
 end
 
-i = rows + 1
 
-while i > 1
-    i = i - 1 
-    j = i
-    while j > 1
-        j = j - 1
-        KJ(j,1:end) = KJ(j,1:end) - (KJ(i,1:end) * KJ(j,i))
-    end
-end
     
 KJ
 

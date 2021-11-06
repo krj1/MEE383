@@ -34,11 +34,3 @@ for i = 1:1:width(min)
     end
     
 end
-
-for i = 1:1:width(t)-1
-    dt = [dt,t(1,i+1)-t(1,i)];
-end
-xinc = 1:1:width(dt);
-
-scatter(xinc,dt);
-ylim([60 64]);
