@@ -32,7 +32,7 @@ function coex = slightlyLessSlowDet(arr)
             U = temp2 * U;
         end
     end
-    U = det(U);
+    U = U(1,1)*U(2,2)*U(3,3)*U(4,4);
     coex = U;
     
 end
