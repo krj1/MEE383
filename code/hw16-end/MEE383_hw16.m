@@ -13,4 +13,24 @@ F = zID(7);
  KJ = round((C+0.8)*randn(7,7));
  
 
- KJ26 = KJ(2:6,2:6)
+ KJ26 = KJ(2:6,2:6);
+ syms l;
+ 
+ dep = KJ26-(l*eye(5))
+ 
+ 
+ poly_KJ26 = det(dep)
+ 
+ lambdas = roots([-1,-15,-186,-3021,-4432,77280])
+ 
+ mat = KJ26-(lambdas(3)*eye(5))
+ 
+ rref(mat)
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
