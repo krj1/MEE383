@@ -33,22 +33,30 @@ k_flip = fliplr(k_nom);
 test3 = nat_frq(k_nom,masses,M);
 test4 = nat_frq(k_flip,masses,M);
 
+k_from_Q10 = 511.2626;
+mass_from_Q10 = abs([KJ1;KJ2]);
+M_from_Q10 = diag(mass_from_Q10,0);
+
+
 if test1 == test2
-     disp(['TRUE, the \omega values are the same']);
+     disp(['TRUE, the natural frequencies are the same']);
 else
-     disp(['FALSE, the \omega values are the same']);
+     disp(['FALSE, the \omega the natural frequencies are not the same']);
 end
 
 if test3 == test4
-     disp(['TRUE, the \omega values are the same']);
+     disp(['TRUE, the natural frequencies are the same']);
 else
-     disp(['FALSE, the \omega values are the same']);
+     disp(['FALSE, the \omega the natural frequencies are not the same']);
 end
 
 
 
+w_Q10 = nat_frq(k_from_Q10, mass_from_Q10,M_from_Q10);
+test3 = nat_frq(k_nom,masses,M);
 
 
+dif = abs(w_Q10 - test3)
      
 function nat = nat_frq(k,masses,M)
     rng(383);

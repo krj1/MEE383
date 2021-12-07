@@ -9,10 +9,10 @@ D = zID(5);
 E = zID(6);
 F = zID(7);
 
-%making unit vectors----------
+%making unit/usefull vectors----------
 
 slant_uv = [((12+D)/12)/(sqrt(((12+D)/12)+((12+D)/12)*tand((16+F)/2))),(((12+D)/12)*tand((16+F)/2))/(sqrt(((12+D)/12)+((12+D)/12)*tand((16+F)/2)))];
-
+load_vec = [1875*cosd(190);1875*sind(190)-(1875/2)]
 unit_step = ((12+D)/12)*tand((16+F)/2);
 
 
@@ -21,15 +21,15 @@ unit_step = ((12+D)/12)*tand((16+F)/2);
 steps  = 4;
 A_small = zeros(steps*4-2,steps*4-2);
 A_large = zeros((36-(steps-2)*8), 36-(steps-2)*8);
-A = zeros(45,45);
+A = zeros(48,48);
 
 
 
 A_small(1,1:2)= [slant_uv(1),slant_uv(1)]; %x A
 A_small(2,1:2)= [slant_uv(2),-slant_uv(2)]; %y A
 
-A_small(3,1:4)= [-slant_uv(1),0,0,slant_uv(1),]; %x B
-A_small(4,1:4)= [-slant_uv(2),0,-1,slant_uv(2),]; %y B
+%A_small(3,1:4)= [-slant_uv(1),0,0,slant_uv(1),]; %x B
+%A_small(4,1:4)= [-slant_uv(2),0,-1,slant_uv(2),]; %y B
 
 p = [];
 k = [];
@@ -43,18 +43,18 @@ for i = 1:steps
         inc = (((steps-1)/2)-1)*4;
         
         A_large(1,8:12) = [-slant_uv(1),0,0,0,1];
-        A_large(1,8:12) = [-slant_uv(2),0,0,-1,0];
+        A_large(2,8:12) = [-slant_uv(2),0,0,-1,0];
         
-        A_large(end-2,32:36) = [1,0,0,0,slant_uv(1)];
-        A_large(end-1,32:36) = [0,0,0,-1,slant_uv(2)];
+        A_large(end-1,32:36) = [1,0,0,0,slant_uv(1)];
+        A_large(end,32:36) = [0,0,0,-1,slant_uv(2)];
         
     elseif i == 1 && mod(steps,2) == 0
         
         A_large(1,8:12) = [-slant_uv(1),0,0,0,1];
-        A_large(1,8:12) = -[-slant_uv(2),0,0,-1,0];
+        A_large(2,8:12) = -[-slant_uv(2),0,0,-1,0];
         
-        A_large(end-2,32:36) = [1,0,0,0,slant_uv(1)];
-        A_large(end-1,32:36) = -[0,0,0,-1,slant_uv(2)];
+        A_large(end-1,end-4:end) = [1,0,0,0,slant_uv(1)];
+        A_large(end,end-4:end) = -[0,0,0,-1,slant_uv(2)];
         
     end
         
@@ -121,7 +121,23 @@ end
 
 
 
+A_small_2 = [-A_small,zeros(height(A_small),1)];
+A_small_2(end-3:end-2,end) = [cosd(15+180);sind(15+180)];
 
+A_small = [zeros(height(A_small),2),A_small,];
+A_small(1,1) = 1;
+A_small(2,2) = 1;
+
+
+A(1:height(A_small),1:width(A_small)) = A_small;
+A(end-height(A_small_2)+1:end,end-width(A_small_2)+1:end) = A_small_2;
+A(height(A_small)+1:end-height(A_small_2),width(A_small)-2:end-width(A_small_2)) = A_large;
+A(31:32,31) = [-1;1];
+b = [zeros(46,1);load_vec];
+
+crap = rref([A,b])
+shit = det(A)
+%A(height(A_small):end-height(A_small),height(A_small):end-height(A_small)) = A_large
 
 for n = 0:12
     if n < steps

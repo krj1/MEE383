@@ -18,18 +18,18 @@ unit_step = ((12+D)/12)*tand((16+F)/2);
 
 %-----------------------------
 
-steps  = 6;
+steps  = 4;
 A_small = zeros(steps*4-2,steps*4-2);
 A_large = zeros((36-(steps-2)*8), 36-(steps-2)*8);
-A = zeros(45,45);
+A = zeros(48,48);
 
 
 
 A_small(1,1:2)= [slant_uv(1),slant_uv(1)]; %x A
 A_small(2,1:2)= [slant_uv(2),-slant_uv(2)]; %y A
 
-A_small(3,1:4)= [-slant_uv(1),0,0,slant_uv(1),]; %x B
-A_small(4,1:4)= [-slant_uv(2),0,-1,slant_uv(2),]; %y B
+%A_small(3,1:4)= [-slant_uv(1),0,0,slant_uv(1),]; %x B
+%A_small(4,1:4)= [-slant_uv(2),0,-1,slant_uv(2),]; %y B
 
 p = [];
 k = [];
@@ -39,13 +39,24 @@ for i = 1:steps
     unit_delta_bar_left = [-1*((12+D)/12)/(sqrt(((12+D)/12)+((12+D)/12)*(2*i-3)*tand((16+F)/2))),-1*(((12+D)/12)*(2*i-3)*tand((16+F)/2))/(sqrt(((12+D)/12)+((12+D)/12)*(2*i-3)*tand((16+F)/2)))];
     unit_delta_bar_right = [((12+D)/12)/(sqrt(((12+D)/12)+((12+D)/12)*(2*i-1)*tand((16+F)/2))),-1*(((12+D)/12)*(2*i-1)*tand((16+F)/2))/(sqrt(((12+D)/12)+((12+D)/12)*(2*i-1)*tand((16+F)/2)))];
 
-    if i == 1 && mod(steps,2) == 0
-        A_large(1,8:12) = [-slant_uv(1),0,0,0,1];
-        A_large(1,8:12) = [-slant_uv(2),0,0,-1,0];
+    if i == 1 && mod(steps,2) == 1
+        inc = (((steps-1)/2)-1)*4;
         
-        A_large(end-2,32:36) = [1,0,0,0,slant_uv(1)];
-        A_large(end-1,32:36) = [0,0,0,-1,slant_uv(2)];
-    elseif 
+        A_large(1,8:12) = [-slant_uv(1),0,0,0,1];
+        A_large(2,8:12) = [-slant_uv(2),0,0,-1,0];
+        
+        A_large(end-1,32:36) = [1,0,0,0,slant_uv(1)];
+        A_large(end,32:36) = [0,0,0,-1,slant_uv(2)];
+        
+    elseif i == 1 && mod(steps,2) == 0
+        
+        A_large(1,8:12) = [-slant_uv(1),0,0,0,1];
+        A_large(2,8:12) = -[-slant_uv(2),0,0,-1,0];
+        
+        A_large(end-1,end-4:end) = [1,0,0,0,slant_uv(1)];
+        A_large(end,end-4:end) = -[0,0,0,-1,slant_uv(2)];
+        
+    end
         
     
     
@@ -108,9 +119,18 @@ for i = 1:1:(36-(steps-2)*8)/4
 end
 
 
+A(1:height(A_small),1:height(A_small)) = A_small;
 
+A_small_2 = [-A_small,zeros(height(A_small),3)];
+A_small_2(end-3:end-2,end) = [cosd(15+180);sind(15+180)];
+A_small_2(1:2,end) = [1;1];
 
+A(end-height(A_small_2)+1:end,end-width(A_small_2)+1:end) = A_small_2;
+A(height(A_small)+1:end-height(A_small_2),height(A_small):end-height(A_small_2)-1) = A_large;
 
+crap_shit_eat_
+
+%A(height(A_small):end-height(A_small),height(A_small):end-height(A_small)) = A_large
 
 for n = 0:12
     if n < steps
